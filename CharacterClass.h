@@ -8,12 +8,13 @@ using namespace std;
 
 class Character {
 public:
-	virtual void useAbility(Character* enemy, vector<string>& logs, const string& numberPlayer) = 0;
+	virtual void useAbility(Character* fellow, Character* enemy, const string& numberPlayer) = 0;
 	virtual bool IsDead() = 0;
 	virtual string getCharacter() = 0;
 	virtual float getHealth() = 0;
 	virtual string getElement() = 0;
 	virtual void takeDamage(float damage) = 0;
+    virtual void takeHealth(float health) = 0;
 	virtual ~Character() {}
 };
 
@@ -61,22 +62,29 @@ public:
 
 	void takeDamage(float damage) override {
 		health -= damage;
-		if (health < 0) health = 0;
+		if (health < 0) {
+            health = 0;
+            cout << "Warrior мертв" << endl;
+        }
 	}
 
-	void useAbility(Character* enemy, vector<string>& logs, const string& numberPlayer) override {
+    void takeHealth(float health_) override {
+        health += health_;
+    }
+
+	void useAbility(Character* fellow, Character* enemy, const string& numberPlayer) override {
 		if (element == "Fire") {
 			if (enemy->getElement() == "Water") {
 				enemy->takeDamage(damage * 1.5);
 				string damageStr = to_string(damage * 1.5);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Earth") {
@@ -84,13 +92,13 @@ public:
 				enemy->takeDamage(damage * 2);
 				string damageStr = to_string(damage * 2);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		if (element == "Water") {
@@ -98,13 +106,13 @@ public:
 				enemy->takeDamage(damage * 1.75);
 				string damageStr = to_string(damage * 1.75);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Wind") {
@@ -112,13 +120,13 @@ public:
 				enemy->takeDamage(damage * 1.3);
 				string damageStr = to_string(damage * 1.3);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Warrior наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 	}
@@ -169,22 +177,29 @@ public:
 
 	void takeDamage(float damage) override {
 		health -= damage;
-		if (health < 0) health = 0;
+		if (health < 0) {
+            health = 0;
+            cout << "Archer мертв" << endl;
+        }
 	}
 
-	void useAbility(Character* enemy, vector<string>& logs, const string& numberPlayer) override {
+    void takeHealth(float health_) override {
+        health += health_;
+    }
+
+	void useAbility(Character* fellow, Character* enemy, const string& numberPlayer) override {
 		if (element == "Fire") {
 			if (enemy->getElement() == "Water") {
 				enemy->takeDamage(damage * 1.2);
 				string damageStr = to_string(damage * 1.2);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Earth") {
@@ -192,13 +207,13 @@ public:
 				enemy->takeDamage(damage * 1.4);
 				string damageStr = to_string(damage * 1.4);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		if (element == "Water") {
@@ -206,13 +221,13 @@ public:
 				enemy->takeDamage(damage * 1.25);
 				string damageStr = to_string(damage * 1.25);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Wind") {
@@ -220,13 +235,13 @@ public:
 				enemy->takeDamage(damage * 1.1);
 				string damageStr = to_string(damage * 1.1);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Archer наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 	}
@@ -276,10 +291,17 @@ public:
 
 	void takeDamage(float damage) override {
 		health -= damage;
-		if (health < 0) health = 0;
+		if (health < 0) {
+            health = 0;
+            cout << "Mage мертв" << endl;
+        }
 	}
 
-	void useAbility(Character* enemy, vector<string>& logs, const string& numberPlayer) override {
+    void takeHealth(float health_) override {
+        health += health_;
+    }
+
+	void useAbility(Character* fellow, Character* enemy, const string& numberPlayer) override {
 		random_device randNumber;
 		mt19937 gen(randNumber());
 		uniform_int_distribution<> dis(1, 2);
@@ -289,13 +311,13 @@ public:
 				enemy->takeDamage(damage * multiplier);
 				string damageStr = to_string(damage * multiplier);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Earth") {
@@ -303,13 +325,13 @@ public:
 				enemy->takeDamage(damage * multiplier);
 				string damageStr = to_string(damage * multiplier);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		if (element == "Water") {
@@ -317,13 +339,13 @@ public:
 				enemy->takeDamage(damage * multiplier);
 				string damageStr = to_string(damage * multiplier);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Wind") {
@@ -331,13 +353,13 @@ public:
 				enemy->takeDamage(damage * multiplier);
 				string damageStr = to_string(damage * multiplier);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Mage наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 	}
@@ -387,22 +409,29 @@ public:
 
 	void takeDamage(float damage) override {
 		health -= damage;
-		if (health < 0) health = 0;
+		if (health < 0) {
+            health = 0;
+            cout << "Doctor мертв" << endl;
+        }            
 	}
 
-	void useAbility(Character* enemy, vector<string>& logs, const string& numberPlayer) override {
+    void takeHealth(float health_) override {
+        health += health_;
+    }
+
+	void useAbility(Character* fellow, Character* enemy, const string& numberPlayer) override {
 		if (element == "Fire") {
 			if (enemy->getElement() == "Water") {
 				enemy->takeDamage(damage * 1.1);
 				string damageStr = to_string(damage * 1.1);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Earth") {
@@ -410,13 +439,13 @@ public:
 				enemy->takeDamage(damage * 1.05);
 				string damageStr = to_string(damage * 1.05);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		if (element == "Water") {
@@ -424,13 +453,13 @@ public:
 				enemy->takeDamage(damage * 1.1);
 				string damageStr = to_string(damage * 1.1);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
 		else if (element == "Wind") {
@@ -438,15 +467,17 @@ public:
 				enemy->takeDamage(damage * 1.1);
 				string damageStr = to_string(damage * 1.1);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 			else {
 				enemy->takeDamage(damage);
 				string damageStr = to_string(damage);
 				while (damageStr[damageStr.size() - 1] == '0') damageStr.erase(damageStr.size() - 1, 1);
-				logs.push_back("Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter());
+				cout << "Игрок " + numberPlayer + ": Doctor наносит урон: " + damageStr + " " + enemy->getCharacter() << endl;
 			}
 		}
+        fellow->takeHealth(damage);
+        cout << "Игрок " << numberPlayer << ": " << "Doctor вылечил " << fellow->getCharacter() << " на " << fixed << setprecision(2) << damage << endl; 
 	}
 };
 
