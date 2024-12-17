@@ -1,8 +1,7 @@
 #include <vector>
-#include <windows.h>
 #include <random>
 #include <iomanip>
-//#include <unistd.h>
+#include <unistd.h>
 
 #include "CharacterClass.h"
 
@@ -21,7 +20,7 @@ Character* chooseCharacter(int32_t character, CharacterFactory* factory) {
 	else if (character == 2) return factory->createArcher();
 	else if (character == 3) return factory->createMage();
 	else if (character == 4) return factory->createDoctor();
-	else throw runtime_error("");
+	else throw runtime_error("Incorrect input data");
 }
 
 CharacterFactory* chooseElement(int32_t element) {
@@ -29,7 +28,7 @@ CharacterFactory* chooseElement(int32_t element) {
 	else if (element == 2) return new WaterCharFactory();
 	else if (element == 3) return new FireCharFactory();
 	else if (element == 4) return new WindCharFactory();
-	else throw runtime_error("");
+	else throw runtime_error("Incorrect input data");
 }
 
 vector<Character*> characterSelection(const string& numberPlayer) {
@@ -72,31 +71,29 @@ bool isAliveTeam(vector<Character*>& playerCharacters) {
 	return true;
 }
 
-void actions(vector<Character*>& firstPlayerCharacters, vector<Character*>& secondPlayerCharacters, vector<string>& logs) {
+void actions(vector<Character*>& firstPlayerCharacters, vector<Character*>& secondPlayerCharacters) {
 	random_device randNumber;
 	mt19937 gen(randNumber());
 	uniform_int_distribution<> dis(0, 3);
 	while(isAliveTeam(firstPlayerCharacters) and isAliveTeam(secondPlayerCharacters)) {
-		int32_t first = dis(gen), second = dis(gen);
-		if (firstPlayerCharacters[first]->IsDead() or secondPlayerCharacters[second]->IsDead()) continue;
-		firstPlayerCharacters[first]->useAbility(secondPlayerCharacters[second], logs, "1");
-		secondPlayerCharacters[second]->useAbility(firstPlayerCharacters[first], logs, "2");
+		int32_t first = dis(gen), second = dis(gen), fellow = dis(gen);
+		if (firstPlayerCharacters[first]->IsDead() or secondPlayerCharacters[second]->IsDead() or firstPlayerCharacters[fellow]->IsDead() or secondPlayerCharacters[fellow]->IsDead()) continue;
+        system("clear");
+        cout << "Игрок 1         \t\t\tИгрок 2" << endl;
+		printCharacters(firstPlayerCharacters, secondPlayerCharacters);
+		firstPlayerCharacters[first]->useAbility(firstPlayerCharacters[fellow], secondPlayerCharacters[second], "1");
+		secondPlayerCharacters[second]->useAbility(secondPlayerCharacters[fellow], firstPlayerCharacters[first], "2");
+        sleep(2);
 	}
+    system("clear");
+    cout << "Игрок 1         \t\t\tИгрок 2" << endl;
+	printCharacters(firstPlayerCharacters, secondPlayerCharacters);
+    if (isAliveTeam(firstPlayerCharacters)) cout << "Игрок 1 победил" << endl;
+    if (isAliveTeam(secondPlayerCharacters)) cout << "Игрок 2 победил" << endl;
 }
 
 void battle(vector<Character*>& firstPlayerCharacters, vector<Character*>& secondPlayerCharacters) {
-	vector<string> logs;
-	while (true) {
-		system("cls");
-		cout << "Игрок 1         \t\t\tИгрок 2" << endl;
-		printCharacters(firstPlayerCharacters, secondPlayerCharacters);
-		actions(firstPlayerCharacters, secondPlayerCharacters, logs);
-		for (string log : logs) {
-			cout << log << endl;
-		}
-		//sleep(2)
-		Sleep(2);
-	}
+    actions(firstPlayerCharacters, secondPlayerCharacters);
 }
 
 int main() {
